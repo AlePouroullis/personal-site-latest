@@ -1,0 +1,77 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  /* Charcoal theme */
+  --bg-primary: #fafafa;
+  --text-primary: #2a2a2a;
+  --text-secondary: #3a3a3a;
+  --text-tertiary: #4a4a4a;
+  --text-muted: #6a6a6a;
+  --text-light: #8a8a8a;
+  --heading-color: #1a1a1a;
+  --link-color: #3a3a3a;
+  --link-underline: #c0c0c0;
+  --link-underline-hover: #6a6a6a;
+  --border-color: #e0e0e0;
+
+  /* Subtle paper texture */
+  --paper-texture: 
+  /* Dots */
+  radial-gradient(circle at 2px 1px, rgba(42, 42, 42, 0.04) 1px, transparent 1px),
+  radial-gradient(circle at 7px 5px, rgba(42, 42, 42, 0.06) 0.5px, transparent 0.5px),
+  radial-gradient(circle at 12px 3px, rgba(42, 42, 42, 0.03) 0.8px, transparent 0.8px),
+  /* Plus very subtle crosshatch */
+  linear-gradient(2deg, transparent 98.5%, rgba(42, 42, 42, 0.012) 100%),
+  linear-gradient(92deg, transparent 99.5%, rgba(42, 42, 42, 0.006) 100%);
+  background-size: 18px 16px, 24px 20px, 15px 18px, 100% 4px, 100% 8px;
+}
+
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-tertiary: var(--text-tertiary);
+  --color-muted: var(--text-muted);
+  --color-light: var(--text-light);
+  --color-heading: var(--heading-color);
+  --color-border: var(--border-color);
+  --font-serif: ui-serif, Georgia, serif;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  line-height: 1.7;
+  background-image: var(--paper-texture);
+  background-size: 20px 20px;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--heading-color);
+  font-weight: 500;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+  transition: text-decoration-color 0.2s ease;
+}
+
+a:hover {
+  text-decoration-color: var(--link-underline-hover);
+}
+
+p {
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  body {
+    background-size: 12px 12px; /* Smaller texture on mobile */
+  }
+}

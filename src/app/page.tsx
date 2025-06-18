@@ -92,7 +92,7 @@ export default function Home() {
 
           {/* Contact */}
           <div
-            className="space-y-6 pt-10 border-t"
+            className="space-y-6 pt-10 border-t contact-section"
             style={{ borderColor: "var(--border-color)" }}
           >
             <h2

@@ -24,28 +24,22 @@ export default function Home() {
                 className="text-lg leading-relaxed"
                 style={{ color: "var(--text-primary)" }}
               >
-                I build tools at{" "}
-                <a href="https://humanloop.com" target="_blank" rel="noopener">
-                  Humanloop
-                </a>{" "}
-                that help companies integrate AI into their workflows. Recently
-                moved from Cape Town to London, still figuring out which coffee
-                shops understand flat whites.
+                I&apos;m a software engineer (and chronic overthinker) living in
+                London. Not entirely sure what I&apos;m doing — but I keep moving. 
+                These days, I&apos;m a product engineer at <a href="https://humanloop.com" target="_blank" rel="noopener">Humanloop</a>{" "}
+                where we&apos;re trying to make AI a little more grounded in reality.
               </p>
 
               <p style={{ color: "var(--text-secondary)" }}>
-                I studied Computer Science at UCT, but spent most of my time
-                learning things they didn&apos;t teach—how to build software
-                that people actually use, why startups fail, and what happens
-                when you say yes to everything. These days I&apos;m more
-                selective about my yeses.
+                In my previous life, I studied Computer Science at the University of Cape Town,
+                where I mostly spent my time at the beach (ah, the good old days).
+                Somewhere in there, I helped build a mobility startup called Loop (can&apos;t seem to escape the loop)
+                where we tried to untangle the taxi industry in South Africa.
               </p>
 
               <p style={{ color: "var(--text-tertiary)" }}>
-                I&apos;m drawn to the spaces between disciplines—where code
-                meets human behavior, where technical decisions become
-                philosophical ones, and where the most interesting problems
-                don&apos;t have clean solutions.
+                And in the life before that, I made music. I&apos;m mostly a listener now, and each year, I tell myself the same thing:
+                I&apos;ll return to it... but alas, the capitalist machine leads one astray. Or I&apos;m just lazy.
               </p>
             </div>
           </div>

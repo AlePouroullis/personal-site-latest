@@ -36,13 +36,14 @@
   --color-light: var(--text-light);
   --color-heading: var(--heading-color);
   --color-border: var(--border-color);
-  --font-serif: ui-serif, Georgia, serif;
+  --font-body: var(--font-body), ui-serif, Georgia, serif;
+  --font-heading: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   line-height: 1.7;
   background-image: var(--paper-texture);
   background-size: 20px 20px;
@@ -52,6 +53,7 @@ h1,
 h2,
 h3 {
   color: var(--heading-color);
+  font-family: var(--font-heading);
   font-weight: 500;
 }
 

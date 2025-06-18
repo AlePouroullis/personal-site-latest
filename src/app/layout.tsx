@@ -1,9 +1,15 @@
 import "./globals.css";
-import { Crimson_Text } from "next/font/google";
+import { Crimson_Text, Inter } from "next/font/google";
 
-const font = Crimson_Text({
+const bodyFont = Crimson_Text({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
+  variable: "--font-body",
+});
+
+const headingFont = Inter({
+  subsets: ["latin"],
+  variable: "--font-heading",
 });
 
 export const metadata = {
@@ -18,7 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={`${bodyFont.variable} ${headingFont.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }

@@ -17,14 +17,12 @@
 
   /* Subtle paper texture */
   --paper-texture: 
-  /* Dots */
-  radial-gradient(circle at 2px 1px, rgba(42, 42, 42, 0.04) 1px, transparent 1px),
-  radial-gradient(circle at 7px 5px, rgba(42, 42, 42, 0.06) 0.5px, transparent 0.5px),
-  radial-gradient(circle at 12px 3px, rgba(42, 42, 42, 0.03) 0.8px, transparent 0.8px),
-  /* Plus very subtle crosshatch */
-  linear-gradient(2deg, transparent 98.5%, rgba(42, 42, 42, 0.012) 100%),
-  linear-gradient(92deg, transparent 99.5%, rgba(42, 42, 42, 0.006) 100%);
-  background-size: 18px 16px, 24px 20px, 15px 18px, 100% 4px, 100% 8px;
+  radial-gradient(circle at 2px 1px, rgba(42, 42, 42, 0.06) 1px, transparent 1px),
+  radial-gradient(circle at 7px 5px, rgba(42, 42, 42, 0.08) 0.5px, transparent 0.5px),
+  radial-gradient(circle at 12px 3px, rgba(42, 42, 42, 0.04) 0.8px, transparent 0.8px),
+  linear-gradient(2deg, transparent 98%, rgba(42, 42, 42, 0.02) 100%),
+  linear-gradient(92deg, transparent 99%, rgba(42, 42, 42, 0.01) 100%);
+  background-size: 16px 14px, 22px 18px, 13px 15px, 100% 3px, 100% 6px;
 }
 
 @theme inline {
@@ -46,7 +44,6 @@ body {
   font-family: var(--font-body);
   line-height: 1.7;
   background-image: var(--paper-texture);
-  background-size: 20px 20px;
 }
 
 h1,
@@ -54,13 +51,13 @@ h2,
 h3 {
   color: var(--heading-color);
   font-family: var(--font-heading);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Headers animate first and fastest */
 h1, h2, h3 {
   opacity: 0;
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.6s ease-out 0.1s forwards;
 }
 
 /* Body text follows slightly behind */
@@ -104,5 +101,13 @@ p {
 @media (max-width: 640px) {
   body {
     background-size: 12px 12px; /* Smaller texture on mobile */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  h1, h2, h3, p, article, .bio-section, .contact-section, time, a {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

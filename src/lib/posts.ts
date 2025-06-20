@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
-const postsDirectory = path.join(process.cwd(), 'content/posts')
+const postsDirectory = path.join(process.cwd(), 'src/content/posts')
 
 export interface PostMetadata {
   slug: string
@@ -34,15 +34,4 @@ export function getAllPosts(): PostMetadata[] {
     })
 
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
-}
-
-export function getPostSlugs(): string[] {
-  if (!fs.existsSync(postsDirectory)) {
-    return []
-  }
-  
-  const fileNames = fs.readdirSync(postsDirectory)
-  return fileNames
-    .filter((fileName) => fileName.endsWith('.mdx'))
-    .map((fileName) => fileName.replace(/\.mdx$/, ''))
 }

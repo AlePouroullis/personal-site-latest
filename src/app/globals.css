@@ -14,15 +14,6 @@
   --link-underline: #c0c0c0;
   --link-underline-hover: #6a6a6a;
   --border-color: #e0e0e0;
-
-  /* Subtle paper texture */
-  --paper-texture: 
-  radial-gradient(circle at 2px 1px, rgba(42, 42, 42, 0.06) 1px, transparent 1px),
-  radial-gradient(circle at 7px 5px, rgba(42, 42, 42, 0.08) 0.5px, transparent 0.5px),
-  radial-gradient(circle at 12px 3px, rgba(42, 42, 42, 0.04) 0.8px, transparent 0.8px),
-  linear-gradient(2deg, transparent 98%, rgba(42, 42, 42, 0.02) 100%),
-  linear-gradient(92deg, transparent 99%, rgba(42, 42, 42, 0.01) 100%);
-  background-size: 16px 14px, 22px 18px, 13px 15px, 100% 3px, 100% 6px;
 }
 
 @theme inline {
@@ -43,8 +34,6 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
   line-height: 1.7;
-  background-image: var(--paper-texture);
-  background-size: 20px 20px;
 }
 
 h1,
@@ -97,12 +86,6 @@ a:hover {
 
 p {
   margin-bottom: 1.25rem;
-}
-
-@media (max-width: 640px) {
-  body {
-    background-size: 12px 12px; /* Smaller texture on mobile */
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

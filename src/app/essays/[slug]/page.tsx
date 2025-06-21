@@ -2,7 +2,7 @@ import { getAllPosts } from "@/lib/posts";
 import Link from "next/link";
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
 
   return posts.map((post) => ({
     slug: post.slug,
@@ -18,24 +18,47 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { default: Post } = await import(`@/content/${slug}.mdx`);
+  const { default: Post, metadata } = await import(
+    `@/content/posts/${slug}.mdx`
+  );
+
+  // Get reading time from posts data
+  const posts = await getAllPosts();
+  const currentPost = posts.find((post) => post.slug === slug);
+  const readingTime = currentPost?.readingTime || 1;
+
+  const date = new Date(metadata.date);
 
   return (
-    <div className="min-h-screen bg-amber-50">
-      <div className="max-w-2xl mx-auto px-8 py-16">
-        <div className="mb-10">
-          <Link
-            href="/"
-            className="text-amber-600 hover:text-amber-800 transition-colors text-sm"
-          >
-            ← Back to home
-          </Link>
-        </div>
-
-        <article className="prose prose-amber prose-lg max-w-none">
-          <Post />
-        </article>
+    <>
+      <div className="mb-10">
+        <Link href="/essays" className="text-sm transition-colors">
+          ← Essays
+        </Link>
       </div>
-    </div>
+      <article className="prose prose-amber prose-lg max-w-none">
+        <header className="mb-8">
+          <h1>{metadata.title}</h1>
+          <div className="flex items-center gap-2 text-sm">
+            <time
+            className="font-light"
+              style={{
+                color: "var(--text-light)",
+                fontWeight: 500,
+              }}
+            >
+              {date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </time>
+            <span>•</span>
+            <span>{readingTime} min read</span>
+          </div>
+        </header>
+        <Post />
+      </article>
+    </>
   );
 }

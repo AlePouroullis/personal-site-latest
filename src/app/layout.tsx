@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import "./globals.css";
 import { Crimson_Text, Inter } from "next/font/google";
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { baseUrl } from "./sitemap";
 
 const bodyFont = Crimson_Text({
@@ -54,7 +54,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${bodyFont.variable} ${headingFont.variable}`}>
-        {children}
+        <div className="min-h-screen">
+          <div className="max-w-2xl mx-auto px-6 sm:px-8 py-16 sm:py-20">
+            {children}
+          </div>
+        </div>
         <Analytics />
         <SpeedInsights />
       </body>

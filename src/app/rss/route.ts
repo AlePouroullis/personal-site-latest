@@ -3,7 +3,7 @@ import { getAllPosts } from "@/lib/posts";
 const baseUrl = "https://alepouroullis.com";
 
 export async function GET() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
 
   const itemsXml = posts
     .sort((a, b) => {
@@ -17,7 +17,7 @@ export async function GET() {
         `<item>
           <title>${post.title}</title>
           <link>${baseUrl}/essays/${post.slug}</link>
-          <description>${post.description || ""}</description>
+          <description>${post.excerpt || ""}</description>
           <pubDate>${new Date(post.date).toUTCString()}</pubDate>
           <guid>${baseUrl}/essays/${post.slug}</guid>
         </item>`

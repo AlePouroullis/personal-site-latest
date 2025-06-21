@@ -1,0 +1,9 @@
+.postLink {
+  display: block;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.postLink:hover {
+  opacity: 0.7;
+}

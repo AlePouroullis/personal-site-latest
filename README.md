@@ -12,7 +12,7 @@ A clean, minimal blog built with Next.js 15, MDX, and Tailwind CSS.
 ```mdx
 export const metadata = {
   title: "Your Post Title",
-  date: "2024-12-21", 
+  date: "2025-06-21", 
   excerpt: "Brief description of the post...",
   tags: ["tag1", "tag2"]
 };

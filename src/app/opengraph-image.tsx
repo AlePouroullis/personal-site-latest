@@ -87,7 +87,7 @@ export default async function Image() {
               fontFamily: crimsonText ? 'Crimson Text' : 'ui-serif, Georgia, serif',
             }}
           >
-            Software engineer and chronic overthinker living in London
+            Software engineer living in London
           </p>
         </div>
 

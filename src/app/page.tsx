@@ -18,7 +18,7 @@ export default async function Home() {
 
         <div className="space-y-6 bio-section">
           <p style={{ color: "var(--text-primary)" }}>
-            I&apos;m a software engineer (and chronic overthinker) living in
+            I&apos;m a software engineer living in
             London. Not entirely sure what I&apos;m doing — but I keep moving.
             These days, I&apos;m a product engineer at{" "}
             <a href="https://humanloop.com" target="_blank" rel="noopener">

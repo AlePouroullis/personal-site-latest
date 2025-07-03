@@ -18,9 +18,9 @@ export default async function Home() {
 
         <div className="space-y-6 bio-section">
           <p style={{ color: "var(--text-primary)" }}>
-            I&apos;m a software engineer living in
-            London. Not entirely sure what I&apos;m doing — but I keep moving.
-            These days, I&apos;m a product engineer at{" "}
+            I&apos;m a software engineer living in London. Not entirely sure
+            what I&apos;m doing — but I keep moving. These days, I&apos;m a
+            product engineer at{" "}
             <a href="https://humanloop.com" target="_blank" rel="noopener">
               Humanloop
             </a>{" "}
@@ -32,8 +32,15 @@ export default async function Home() {
             In my previous life, I studied Computer Science at the University of
             Cape Town, where I mostly spent my time at the beach (ah, the good
             old days). Somewhere in there, I helped build a mobility startup
-            called Loop where we tried to untangle the taxi industry in South
-            Africa.
+            called{" "}
+            <a
+              href="https://www.linkedin.com/company/looptaxiapp/"
+              target="_blank"
+              rel="noopener"
+            >
+              Loop
+            </a>{" "}
+            where we tried to untangle the taxi industry in South Africa.
           </p>
 
           <p style={{ color: "var(--text-tertiary)" }}>
@@ -54,10 +61,7 @@ export default async function Home() {
           >
             Recent Writing
           </h2>
-          <Link
-            href="/essays"
-            className="text-sm transition-colors"
-          >
+          <Link href="/essays" className="text-sm transition-colors">
             View all →
           </Link>
         </div>

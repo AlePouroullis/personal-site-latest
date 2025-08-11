@@ -61,7 +61,7 @@ export default async function Home() {
           >
             Recent Writing
           </h2>
-          <Link href="/essays" className="text-sm transition-colors">
+          <Link href="/essays" className="transition-colors">
             View all →
           </Link>
         </div>

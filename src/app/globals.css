@@ -16,9 +16,9 @@
   --border-color: #e0e0e0;
 
   /* Typography scale for optimal readability */
-  --font-size-body: 20px;
-  --font-size-body-mobile: 18px;
-  --line-height-body: 1.65;
+  --font-size-body: 19px;
+  --font-size-body-mobile: 17px;
+  --line-height-body: 1.6;
   --content-max-width: 650px;
 }
 
@@ -65,9 +65,15 @@ h3 {
 }
 
 /* Blog post specific styles */
+.prose {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
 .prose p {
   margin-bottom: 1.5rem;
   color: var(--text-primary);
+  font-size: inherit;
 }
 
 .prose h1,
@@ -88,11 +94,15 @@ h3 {
   font-size: 1.25rem;
 }
 
-/* Then in your link styles: */
+/* Link styles */
 a {
   color: var(--link-color);
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--link-underline) 70%, transparent);
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--link-underline) 70%,
+    transparent
+  );
   transition: text-decoration-color 0.2s ease;
 }
 
@@ -100,6 +110,14 @@ a:hover {
   text-decoration-color: var(--link-underline); /* Full opacity on hover */
 }
 
+/* Navigation link variants */
+.nav-link {
+  font-size: 1rem;
+}
+
+.nav-link-muted {
+  color: var(--text-muted);
+}
 
 @media (prefers-reduced-motion: reduce) {
   h1,
@@ -114,5 +132,100 @@ a:hover {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* Inline popover (tooltip/popover for inline terms) */
+.inline-popover {
+  display: inline;
+}
+
+.inline-popover__trigger {
+  /* Reset button styles */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+
+  /* Use your existing link styling but more subtle */
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--link-underline) 50%,
+    transparent
+  );
+  text-underline-offset: 2px;
+
+  /* Smooth transitions */
+  transition: all 0.15s ease;
+
+  /* Ensure it flows naturally with text */
+  display: inline;
+  line-height: inherit;
+}
+
+.inline-popover__trigger:hover {
+  text-decoration-color: var(--link-underline);
+}
+
+.inline-popover__trigger:focus {
+  outline: 2px solid var(--link-underline);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.inline-popover__content {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  /* Animation */
+  animation: slideIn 0.15s ease-out;
+  z-index: 50;
+
+  /* Mobile-friendly sizing */
+  max-width: min(280px, calc(100vw - 32px));
+}
+
+.inline-popover__arrow {
+  fill: var(--bg-primary);
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .inline-popover__content {
+    font-size: 0.8125rem; /* 13px - slightly smaller on mobile */
+    padding: 10px 12px;
+    max-width: calc(100vw - 24px);
+  }
+
+  .inline-popover__trigger {
+    /* Larger touch target on mobile */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

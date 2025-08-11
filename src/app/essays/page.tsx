@@ -10,13 +10,7 @@ export default async function EssaysPage() {
     <>
       {/* Navigation */}
       <div className="mb-10">
-        <Link
-          href="/"
-          className="transition-colors text-sm"
-          style={{ color: "var(--text-muted)" }}
-        >
-          ← Home
-        </Link>
+        <Link href="/">← Home</Link>
       </div>
       {/* Header */}
       <div className="mb-12">

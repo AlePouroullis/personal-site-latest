@@ -51,23 +51,11 @@ export default function NotFound() {
 
             <div className="space-y-4">
               <div>
-                <Link
-                  href="/"
-                  className="text-lg transition-colors"
-                  style={{ color: "var(--link-color)" }}
-                >
-                  ← Back to home
-                </Link>
+                <Link href="/">← Back to home</Link>
               </div>
 
               <div>
-                <Link
-                  href="/essays"
-                  className="text-lg transition-colors"
-                  style={{ color: "var(--link-color)" }}
-                >
-                  Browse essays
-                </Link>
+                <Link href="/essays">Browse essays</Link>
               </div>
             </div>
           </div>

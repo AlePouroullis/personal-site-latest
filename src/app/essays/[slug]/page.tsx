@@ -1,5 +1,6 @@
 import { getAllPosts } from "@/lib/posts";
 import Link from "next/link";
+import BackToTopButton from "@/components/BackToTopButton";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -29,19 +30,19 @@ export default async function PostPage({
 
   const date = new Date(metadata.date);
 
+  const showBackButtons = readingTime >= 2;
+
   return (
     <>
       <div className="mb-10">
-        <Link href="/essays" className="text-sm transition-colors">
-          ← Essays
-        </Link>
+        <Link href="/essays">← Essays</Link>
       </div>
       <article className="prose prose-amber prose-lg max-w-none">
         <header className="mb-8">
           <h1>{metadata.title}</h1>
           <div className="flex items-center gap-2 text-sm">
             <time
-            className="font-light"
+              className="font-light"
               style={{
                 color: "var(--text-light)",
                 fontWeight: 500,
@@ -59,6 +60,16 @@ export default async function PostPage({
         </header>
         <Post />
       </article>
+
+      {showBackButtons && (
+        <div
+          className="mt-12 pt-8 flex items-center justify-between"
+          style={{ borderColor: "var(--border-color)" }}
+        >
+          <BackToTopButton />
+          <Link href="/essays">← Back to essays</Link>
+        </div>
+      )}
     </>
   );
 }

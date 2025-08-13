@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   },
   description:
     "Personal website of Alé Pouroullis - software engineer, product builder, and occasional writer on career, ambition, and philosophy.",
+  themeColor: "#fafafa",
   openGraph: {
     title: "Alé Pouroullis - Software Engineer & Writer",
     description:

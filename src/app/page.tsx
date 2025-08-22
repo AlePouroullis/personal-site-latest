@@ -18,21 +18,18 @@ export default async function Home() {
 
         <div className="space-y-6 bio-section">
           <p style={{ color: "var(--text-primary)" }}>
-            I&apos;m a software engineer living in London. Not entirely sure
-            what I&apos;m doing — but I keep moving. These days, I&apos;m a
-            product engineer at{" "}
-            <a href="https://humanloop.com" target="_blank" rel="noopener">
-              Humanloop
-            </a>{" "}
-            where we&apos;re trying to make AI a little more grounded in
-            reality.
+            I&apos;m a software engineer living in London. These days, I work on
+            Developer Experience at{" "}
+            <a href="https://www.anthropic.com" target="_blank" rel="noopener">
+              Anthropic
+            </a>
+            , helping people build more easily with Claude.
           </p>
 
           <p style={{ color: "var(--text-secondary)" }}>
-            In my previous life, I studied Computer Science at the University of
-            Cape Town, where I mostly spent my time at the beach (ah, the good
-            old days). Somewhere in there, I helped build a mobility startup
-            called{" "}
+            I made my way across the world, from Cape Town, where I was studying
+            Computer Science at, you guessed it, the University of Cape Town. Somewhere in there,
+            I helped build a mobility startup called{" "}
             <a
               href="https://www.linkedin.com/company/looptaxiapp/"
               target="_blank"
@@ -40,14 +37,17 @@ export default async function Home() {
             >
               Loop
             </a>{" "}
-            where we tried to untangle the taxi industry in South Africa.
+            where we tried to address the notorious taxi industry in South
+            Africa.
           </p>
 
           <p style={{ color: "var(--text-tertiary)" }}>
-            And in the life before that, I made music. I&apos;m mostly a
-            listener now, and each year, I tell myself the same thing: I&apos;ll
-            return to it... but alas, the capitalist machine leads one astray.
-            Or I&apos;m just lazy.
+            If you dig even further, you&apos;ll find that there was a time I
+            fancied myself a musician. I&apos;m mostly a listener now, though
+            with each passing year I tell myself I&apos;ll eventually make a
+            return. But alas, the capitalist machine leads one astray...
+            <br />
+            Or maybe I&apos;m just lazy.
           </p>
         </div>
       </div>

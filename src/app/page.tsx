@@ -18,7 +18,7 @@ export default async function Home() {
 
         <div className="space-y-6 bio-section">
           <p style={{ color: "var(--text-primary)" }}>
-            I&apos;m a software engineer living in London. These days, I work on
+            I&apos;m a software engineer now living in San Francisco. These days, I work on
             Developer Experience at{" "}
             <a href="https://www.anthropic.com" target="_blank" rel="noopener">
               Anthropic
@@ -38,7 +38,8 @@ export default async function Home() {
               Loop
             </a>{" "}
             where we tried to address the notorious taxi industry in South
-            Africa.
+            Africa. The journey took me through London, and now here I am in San Francisco—
+            still chasing better ways to build things.
           </p>
 
           <p style={{ color: "var(--text-tertiary)" }}>

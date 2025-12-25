@@ -33,8 +33,8 @@ export default async function PostPage({
   const showBackButtons = readingTime >= 2;
 
   return (
-    <>
-      <div className="mb-10">
+    <div className="space-y-10">
+      <div>
         <Link href="/essays">← Essays</Link>
       </div>
       <article className="prose prose-amber prose-lg max-w-none">
@@ -70,6 +70,6 @@ export default async function PostPage({
           <Link href="/essays">← Back to essays</Link>
         </div>
       )}
-    </>
+    </div>
   );
 }

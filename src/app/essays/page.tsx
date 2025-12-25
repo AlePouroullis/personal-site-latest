@@ -7,15 +7,15 @@ export default async function EssaysPage() {
   const posts = await getAllPosts();
 
   return (
-    <>
+    <div className="space-y-10">
       {/* Navigation */}
-      <div className="mb-10">
+      <div>
         <Link href="/">← Home</Link>
       </div>
       {/* Header */}
-      <div className="mb-12">
+      <div className="space-y-4">
         <h1
-          className="text-3xl font-medium mb-4"
+          className="text-3xl font-medium"
           style={{ color: "var(--heading-color)" }}
         >
           Essays
@@ -29,6 +29,6 @@ export default async function EssaysPage() {
       </div>
       {/* Essays List */}
       <PostList posts={posts} />
-    </>
+    </div>
   );
 }

@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     template: "%s | Alé Pouroullis",
   },
   description:
-    "Personal website of Alé Pouroullis - software engineer, product builder, and occasional writer on career, ambition, and philosophy.",
+    "Personal website of Alé Pouroullis - software engineer and writer exploring ambition, meaning, and the quieter things.",
   themeColor: "#fafafa",
   openGraph: {
     title: "Alé Pouroullis - Software Engineer & Writer",
     description:
-      "Personal website of Alé Pouroullis - software engineer, product builder, and occasional writer on career, ambition, and philosophy.",
+      "Personal website of Alé Pouroullis - software engineer and writer exploring ambition, meaning, and the quieter things.",
     url: baseUrl,
     siteName: "Alé Pouroullis",
     locale: "en_US",

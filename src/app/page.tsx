@@ -18,37 +18,29 @@ export default async function Home() {
 
         <div className="space-y-6 bio-section">
           <p style={{ color: "var(--text-primary)" }}>
-            I&apos;m a software engineer now living in San Francisco. These days, I work on
+            I&apos;m a software engineer based in San Francisco, working on
             Developer Experience at{" "}
-            <a href="https://www.anthropic.com" target="_blank" rel="noopener">
+            <a
+              href="https://anthropic.com"
+              target="_blank"
+              rel="noopener"
+              className="transition-colors"
+            >
               Anthropic
             </a>
-            , helping people build more easily with Claude.
+            .
           </p>
 
           <p style={{ color: "var(--text-secondary)" }}>
-            I made my way across the world, from Cape Town, where I was studying
-            Computer Science at, you guessed it, the University of Cape Town. Somewhere in there,
-            I helped build a mobility startup called{" "}
-            <a
-              href="https://www.linkedin.com/company/looptaxiapp/"
-              target="_blank"
-              rel="noopener"
-            >
-              Loop
-            </a>{" "}
-            where we tried to address the notorious taxi industry in South
-            Africa. The journey took me through London, and now here I am in San Francisco—
-            still chasing better ways to build things.
+            I came up through startups—first building a mobility app in Cape
+            Town&apos;s taxi industry, then a stint in London before landing
+            here. I&apos;m used to being the one-person tech team, sinking my
+            teeth into messy problems and figuring it out as I go.
           </p>
 
           <p style={{ color: "var(--text-tertiary)" }}>
-            If you dig even further, you&apos;ll find that there was a time I
-            fancied myself a musician. I&apos;m mostly a listener now, though
-            with each passing year I tell myself I&apos;ll eventually make a
-            return. But alas, the capitalist machine leads one astray...
-            <br />
-            Or maybe I&apos;m just lazy.
+            These days I&apos;m learning to balance ambition with the quieter
+            things—writing is one small part of that.
           </p>
         </div>
       </div>

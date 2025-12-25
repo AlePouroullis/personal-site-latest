@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import PostList from "@/components/PostList";
-import React from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function EssaysPage() {
   const posts = await getAllPosts();
@@ -9,8 +9,9 @@ export default async function EssaysPage() {
   return (
     <div className="space-y-10">
       {/* Navigation */}
-      <div>
+      <div className="flex items-center justify-between">
         <Link href="/">← Home</Link>
+        <ThemeToggle />
       </div>
       {/* Header */}
       <div className="space-y-4">

@@ -5,6 +5,18 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { baseUrl } from "./sitemap";
 
+const themeScript = `
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.classList.add(theme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.add(prefersDark ? 'dark' : 'light');
+    }
+  })();
+`;
+
 const bodyFont = Crimson_Text({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
@@ -53,10 +65,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className={`${bodyFont.variable} ${headingFont.variable}`}>
         <div className="min-h-screen">
-          <div className="max-w-2xl mx-auto px-6 sm:px-8 py-16 sm:py-20">
+          <div className="max-w-2xl mx-auto px-6 sm:px-8 py-10 sm:py-14">
             {children}
           </div>
         </div>

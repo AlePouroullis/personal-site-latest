@@ -1,6 +1,7 @@
 import { getAllPosts } from "@/lib/posts";
 import Link from "next/link";
 import BackToTopButton from "@/components/BackToTopButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -34,20 +35,18 @@ export default async function PostPage({
 
   return (
     <div className="space-y-10">
-      <div>
+      <div className="flex items-center justify-between">
         <Link href="/essays">← Essays</Link>
+        <ThemeToggle />
       </div>
       <article className="prose prose-amber prose-lg max-w-none">
         <header className="mb-8">
           <h1>{metadata.title}</h1>
-          <div className="flex items-center gap-2 text-sm">
-            <time
-              className="font-light"
-              style={{
-                color: "var(--text-light)",
-                fontWeight: 500,
-              }}
-            >
+          <div
+            className="flex items-center gap-2 text-sm"
+            style={{ color: "var(--text-muted)" }}
+          >
+            <time>
               {date.toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "short",

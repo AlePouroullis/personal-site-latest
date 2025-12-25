@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import PostList from "@/components/PostList";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function Home() {
   const posts = await getAllPosts();
@@ -9,12 +10,15 @@ export default async function Home() {
     <div className="space-y-10">
       {/* Header */}
       <div className="space-y-8">
-        <h1
-          className="text-3xl font-medium"
-          style={{ color: "var(--heading-color)" }}
-        >
-          Alé Pouroullis
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1
+            className="text-3xl font-medium"
+            style={{ color: "var(--heading-color)" }}
+          >
+            Alé Pouroullis
+          </h1>
+          <ThemeToggle />
+        </div>
 
         <div className="space-y-6 bio-section">
           <p style={{ color: "var(--text-primary)" }}>

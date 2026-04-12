@@ -39,6 +39,12 @@ export default function CollectionList({
                   {fmt(c.date)}
                 </div>
               </div>
+              <span
+                className="text-sm shrink-0"
+                style={{ color: "var(--text-light)" }}
+              >
+                {c.count} photo{c.count === 1 ? "" : "s"}
+              </span>
             </Link>
           </li>
         ))}

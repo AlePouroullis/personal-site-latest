@@ -4,6 +4,7 @@
 :root {
   /* Charcoal theme */
   --bg-primary: #fafafa;
+  --grain-opacity: 0.025;
   --text-primary: #2a2a2a;
   --text-secondary: #3a3a3a;
   --text-tertiary: #4a4a4a;
@@ -25,6 +26,7 @@
 /* Dark theme variables */
 .dark {
   --bg-primary: #1a1a1a;
+  --grain-opacity: 0.035;
   --text-primary: #d8d8d8;
   --text-secondary: #c8c8c8;
   --text-tertiary: #b8b8b8;
@@ -79,6 +81,22 @@ body {
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Paper grain — subtle fractal noise over everything below the lightbox */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: var(--grain-opacity);
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--link-underline) 35%, transparent);
 }
 
 /* Theme transition for all elements */

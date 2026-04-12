@@ -1,0 +1,12 @@
+{
+  "title": "Cape Town",
+  "date": "2025-12-14",
+  "intro": "Home, briefly. The mountain does most of the work.",
+  "location": "Cape Town, South Africa",
+  "camera": "Fujifilm X-T5 · 35mm f/1.4",
+  "cover": "southern-suburbs-view.webp",
+  "photos": [
+    { "file": "southern-suburbs-view.webp", "caption": "Southern Suburbs from the contour path" },
+    { "file": "stone-pines.webp", "caption": "Stone pines, Rhodes Memorial" }
+  ]
+}

@@ -1,0 +1,112 @@
+import fs from "fs";
+import path from "path";
+import sharp from "sharp";
+
+const manifestDir = path.join(process.cwd(), "src/content/photography");
+const imageDir = path.join(process.cwd(), "public/photography");
+
+export interface Photo {
+  src: string;
+  caption?: string;
+  width: number;
+  height: number;
+}
+
+export interface CollectionMeta {
+  slug: string;
+  title: string;
+  date: Date;
+  intro: string;
+  location?: string;
+  camera?: string;
+  count: number;
+  cover: Photo;
+}
+
+export interface Collection extends CollectionMeta {
+  photos: Photo[];
+}
+
+interface ManifestPhoto {
+  file: string;
+  caption?: string;
+}
+
+interface Manifest {
+  title: string;
+  date: string;
+  intro: string;
+  location?: string;
+  camera?: string;
+  cover: string;
+  photos: ManifestPhoto[];
+}
+
+async function loadPhoto(slug: string, entry: ManifestPhoto): Promise<Photo> {
+  const filePath = path.join(imageDir, slug, entry.file);
+  const { width = 0, height = 0 } = await sharp(filePath).metadata();
+  const photo: Photo = {
+    src: `/photography/${slug}/${entry.file}`,
+    width,
+    height,
+  };
+  if (entry.caption) photo.caption = entry.caption;
+  return photo;
+}
+
+function listSlugs(): string[] {
+  if (!fs.existsSync(manifestDir)) return [];
+  return fs
+    .readdirSync(manifestDir)
+    .filter((f) => f.endsWith(".json"))
+    .map((f) => f.replace(/\.json$/, ""));
+}
+
+function readManifest(slug: string): Manifest {
+  const raw = fs.readFileSync(path.join(manifestDir, `${slug}.json`), "utf8");
+  return JSON.parse(raw);
+}
+
+export async function getAllCollections(): Promise<CollectionMeta[]> {
+  const metas = await Promise.all(
+    listSlugs().map(async (slug) => {
+      const m = readManifest(slug);
+      const cover = await loadPhoto(slug, { file: m.cover });
+      const meta: CollectionMeta = {
+        slug,
+        title: m.title,
+        date: new Date(m.date),
+        intro: m.intro,
+        count: m.photos.length,
+        cover,
+      };
+      if (m.location) meta.location = m.location;
+      if (m.camera) meta.camera = m.camera;
+      return meta;
+    })
+  );
+  return metas.sort((a, b) => b.date.getTime() - a.date.getTime());
+}
+
+export async function getCollection(slug: string): Promise<Collection | null> {
+  if (!listSlugs().includes(slug)) return null;
+  const m = readManifest(slug);
+  const photos = await Promise.all(
+    m.photos.map((p) => loadPhoto(slug, p))
+  );
+  const cover =
+    photos.find((p) => p.src.endsWith(m.cover)) ??
+    (await loadPhoto(slug, { file: m.cover }));
+  const collection: Collection = {
+    slug,
+    title: m.title,
+    date: new Date(m.date),
+    intro: m.intro,
+    count: photos.length,
+    cover,
+    photos,
+  };
+  if (m.location) collection.location = m.location;
+  if (m.camera) collection.camera = m.camera;
+  return collection;
+}

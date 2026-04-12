@@ -1,0 +1,14 @@
+{
+  "title": "Lake District",
+  "date": "2026-03-28",
+  "intro": "A few days walking the fells in early spring. Low cloud, wet stone, the kind of quiet that settles in.",
+  "location": "Cumbria, England",
+  "camera": "Fujifilm X-T5 · 23mm f/2",
+  "cover": "saunders-at-sunset.webp",
+  "photos": [
+    { "file": "saunders-at-sunset.webp", "caption": "Last light over the water" },
+    { "file": "stone-pines.webp", "caption": "Pines on the ridge" },
+    { "file": "southern-suburbs-view.webp", "caption": "Looking back down the valley" },
+    { "file": "canopies.webp", "caption": "Canopy from below" }
+  ]
+}

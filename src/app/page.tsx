@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
+import { getAllCollections } from "@/lib/photos";
 import PostList from "@/components/PostList";
+import CollectionList from "@/components/CollectionList";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function Home() {
   const posts = await getAllPosts();
+  const collections = await getAllCollections();
 
   return (
     <div className="space-y-10">
@@ -64,6 +67,23 @@ export default async function Home() {
         </div>
 
         <PostList posts={posts} limit={3} />
+      </div>
+
+      {/* Photography */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2
+            className="text-xl font-medium"
+            style={{ color: "var(--heading-color)" }}
+          >
+            Photography
+          </h2>
+          <Link href="/photography" className="transition-colors">
+            View all →
+          </Link>
+        </div>
+
+        <CollectionList collections={collections} limit={3} compact />
       </div>
 
       {/* Contact */}

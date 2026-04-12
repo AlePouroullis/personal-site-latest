@@ -1,0 +1,29 @@
+.rowLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.rowLink:hover {
+  opacity: 0.7;
+}
+
+.cardLink {
+  display: block;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.cardLink:hover {
+  opacity: 0.85;
+}
+
+.cardLink:hover .cover {
+  transform: scale(1.02);
+}
+
+.cover {
+  transition: transform 0.3s ease;
+}

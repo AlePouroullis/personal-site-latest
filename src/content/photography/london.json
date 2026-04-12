@@ -1,0 +1,12 @@
+{
+  "title": "London",
+  "date": "2025-09-02",
+  "intro": "Between things. Mostly parks, mostly grey.",
+  "location": "London, England",
+  "camera": "Fujifilm X-T5 · 23mm f/2",
+  "cover": "canopies.webp",
+  "photos": [
+    { "file": "canopies.webp", "caption": "Hampstead Heath" },
+    { "file": "saunders-at-sunset.webp", "caption": "Evening, somewhere south" }
+  ]
+}

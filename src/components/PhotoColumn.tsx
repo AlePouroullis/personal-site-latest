@@ -89,7 +89,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
           aria-modal="true"
           aria-label="Image viewer"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-          style={{ background: "rgba(0, 0, 0, 0.92)" }}
+          style={{ background: "rgba(0, 0, 0, 0.92)", margin: 0 }}
           onClick={close}
         >
           <button

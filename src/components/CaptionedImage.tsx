@@ -32,8 +32,6 @@ export default function CaptionedImage({
         style={{
           width: "100%",
           height: "auto",
-          borderRadius: "6px",
-          // boxShadow: "0 4px 8px rgba(216, 207, 193, 0.4)",
         }}
         {...props}
       />

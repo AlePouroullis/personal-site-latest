@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import "./globals.css";
-import { Crimson_Text, Inter } from "next/font/google";
+import { Crimson_Text } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { baseUrl } from "./sitemap";
@@ -21,11 +21,6 @@ const bodyFont = Crimson_Text({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
   variable: "--font-body",
-});
-
-const headingFont = Inter({
-  subsets: ["latin"],
-  variable: "--font-heading",
 });
 
 export const metadata: Metadata = {
@@ -69,7 +64,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${bodyFont.variable} ${headingFont.variable}`}>
+      <body className={bodyFont.variable}>
         <div className="min-h-screen">
           <div className="max-w-2xl mx-auto px-6 sm:px-8 py-10 sm:py-14">
             {children}

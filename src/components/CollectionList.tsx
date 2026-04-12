@@ -57,7 +57,7 @@ export default function CollectionList({
       {items.map((c) => (
         <li key={c.slug}>
           <Link href={`/photography/${c.slug}`} className={styles.cardLink}>
-            <div className="relative aspect-[3/2] overflow-hidden rounded-md mb-3">
+            <div className="relative aspect-[3/2] overflow-hidden mb-3">
               <Image
                 src={c.cover.src}
                 alt=""

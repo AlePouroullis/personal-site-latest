@@ -14,6 +14,23 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
     setActiveIndex(i);
   }, []);
   const close = useCallback(() => setActiveIndex(null), []);
+
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>("[data-fade]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px" }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
   const step = useCallback(
     (delta: number) =>
       setActiveIndex((i) =>
@@ -50,7 +67,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
     <>
       <div className="space-y-12">
         {photos.map((photo, i) => (
-          <figure key={photo.src}>
+          <figure key={photo.src} data-fade>
             <button
               type="button"
               onClick={() => open(i)}
@@ -67,7 +84,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
                 width={photo.width}
                 height={photo.height}
                 sizes="(max-width: 768px) 100vw, 650px"
-                className="w-full h-auto rounded-md"
+                className="w-full h-auto"
                 priority={i === 0}
               />
             </button>

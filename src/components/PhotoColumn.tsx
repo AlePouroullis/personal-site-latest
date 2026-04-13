@@ -126,7 +126,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
             type="button"
             onClick={close}
             aria-label="Close"
-            className="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none cursor-pointer p-2"
+            className="absolute top-0 right-0 z-10 text-white/70 hover:text-white text-3xl leading-none cursor-pointer p-4"
           >
             ×
           </button>
@@ -137,7 +137,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
               step(-1);
             }}
             aria-label="Previous"
-            className="absolute left-0 sm:left-6 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
+            className="absolute left-0 sm:left-6 top-1/2 -translate-y-1/2 z-10 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
           >
             ‹
           </button>
@@ -148,7 +148,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
               step(1);
             }}
             aria-label="Next"
-            className="absolute right-0 sm:right-6 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
+            className="absolute right-0 sm:right-6 top-1/2 -translate-y-1/2 z-10 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
           >
             ›
           </button>

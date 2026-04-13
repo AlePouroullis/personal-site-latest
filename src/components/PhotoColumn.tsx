@@ -8,6 +8,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocusRef = useRef<HTMLElement | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const open = useCallback((i: number) => {
     lastFocusRef.current = document.activeElement as HTMLElement;
@@ -45,6 +46,26 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
       lastFocusRef.current?.focus();
     };
   }, [isOpen, close, step]);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.changedTouches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    const threshold = 50;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold) {
+      step(dx < 0 ? 1 : -1);
+    } else if (dy > threshold && Math.abs(dy) > Math.abs(dx)) {
+      close();
+    }
+  };
 
   const active = activeIndex !== null ? photos[activeIndex] : null;
 
@@ -95,9 +116,11 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
           role="dialog"
           aria-modal="true"
           aria-label="Image viewer"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 outline-none"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 outline-none touch-pan-y"
           style={{ background: "rgba(0, 0, 0, 0.92)", margin: 0 }}
           onClick={close}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
           <button
             type="button"
@@ -114,7 +137,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
               step(-1);
             }}
             aria-label="Previous"
-            className="absolute left-2 sm:left-6 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-2"
+            className="absolute left-0 sm:left-6 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
           >
             ‹
           </button>
@@ -125,7 +148,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
               step(1);
             }}
             aria-label="Next"
-            className="absolute right-2 sm:right-6 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-2"
+            className="absolute right-0 sm:right-6 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
           >
             ›
           </button>

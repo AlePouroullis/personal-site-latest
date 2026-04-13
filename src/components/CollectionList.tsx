@@ -30,6 +30,8 @@ export default function CollectionList({
                   alt=""
                   fill
                   sizes="56px"
+                  placeholder="blur"
+                  blurDataURL={c.cover.blurDataURL}
                   className="object-cover"
                 />
               </div>
@@ -64,6 +66,8 @@ export default function CollectionList({
                 fill
                 sizes="(max-width: 768px) 100vw, 650px"
                 quality={85}
+                placeholder="blur"
+                blurDataURL={c.cover.blurDataURL}
                 className={`object-cover ${styles.cover}`}
               />
             </div>

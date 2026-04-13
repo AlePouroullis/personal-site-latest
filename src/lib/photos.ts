@@ -10,6 +10,7 @@ export interface Photo {
   caption?: string;
   width: number;
   height: number;
+  blurDataURL: string;
 }
 
 export interface CollectionAudio {
@@ -55,11 +56,18 @@ interface Manifest {
 
 async function loadPhoto(slug: string, entry: ManifestPhoto): Promise<Photo> {
   const filePath = path.join(imageDir, slug, entry.file);
-  const { width = 0, height = 0 } = await sharp(filePath).metadata();
+  const img = sharp(filePath);
+  const { width = 0, height = 0 } = await img.metadata();
+  const blur = await img
+    .clone()
+    .resize(10, null, { fit: "inside" })
+    .webp({ quality: 30 })
+    .toBuffer();
   const photo: Photo = {
     src: `/photography/${slug}/${entry.file}`,
     width,
     height,
+    blurDataURL: `data:image/webp;base64,${blur.toString("base64")}`,
   };
   if (entry.caption) photo.caption = entry.caption;
   return photo;

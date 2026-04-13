@@ -70,6 +70,8 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
                 height={photo.height}
                 sizes="(max-width: 768px) 100vw, 650px"
                 quality={85}
+                placeholder="blur"
+                blurDataURL={photo.blurDataURL}
                 className="w-full h-auto"
                 priority={i === 0}
               />
@@ -138,6 +140,8 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
                 fill
                 sizes="100vw"
                 quality={90}
+                placeholder="blur"
+                blurDataURL={active.blurDataURL}
                 className="object-contain"
                 priority
               />

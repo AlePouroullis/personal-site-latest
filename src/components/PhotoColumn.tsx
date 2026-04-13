@@ -6,7 +6,7 @@ import type { Photo } from "@/lib/photos";
 
 export default function PhotoColumn({ photos }: { photos: Photo[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocusRef = useRef<HTMLElement | null>(null);
 
   const open = useCallback((i: number) => {
@@ -14,33 +14,18 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
     setActiveIndex(i);
   }, []);
   const close = useCallback(() => setActiveIndex(null), []);
-
-  useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>("[data-fade]");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            observer.unobserve(entry.target);
-          }
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px" }
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
   const step = useCallback(
     (delta: number) =>
       setActiveIndex((i) =>
-        i === null ? null : (i + delta + photos.length) % photos.length
+        i === null ? null : (i + delta + photos.length) % photos.length,
       ),
-    [photos.length]
+    [photos.length],
   );
 
+  const isOpen = activeIndex !== null;
+
   useEffect(() => {
-    if (activeIndex === null) return;
+    if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
       if (e.key === "ArrowLeft") step(-1);
@@ -52,14 +37,14 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
     const prevBody = body.style.overflow;
     documentElement.style.overflow = "hidden";
     body.style.overflow = "hidden";
-    closeBtnRef.current?.focus();
+    dialogRef.current?.focus();
     return () => {
       window.removeEventListener("keydown", onKey);
       documentElement.style.overflow = prevHtml;
       body.style.overflow = prevBody;
       lastFocusRef.current?.focus();
     };
-  }, [activeIndex, close, step]);
+  }, [isOpen, close, step]);
 
   const active = activeIndex !== null ? photos[activeIndex] : null;
 
@@ -67,7 +52,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
     <>
       <div className="space-y-12">
         {photos.map((photo, i) => (
-          <figure key={photo.src} data-fade>
+          <figure key={photo.src}>
             <button
               type="button"
               onClick={() => open(i)}
@@ -84,6 +69,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
                 width={photo.width}
                 height={photo.height}
                 sizes="(max-width: 768px) 100vw, 650px"
+                quality={85}
                 className="w-full h-auto"
                 priority={i === 0}
               />
@@ -102,15 +88,16 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
 
       {active && (
         <div
+          ref={dialogRef}
+          tabIndex={-1}
           role="dialog"
           aria-modal="true"
           aria-label="Image viewer"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 outline-none"
           style={{ background: "rgba(0, 0, 0, 0.92)", margin: 0 }}
           onClick={close}
         >
           <button
-            ref={closeBtnRef}
             type="button"
             onClick={close}
             aria-label="Close"
@@ -150,6 +137,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
                 alt={active.caption ?? ""}
                 fill
                 sizes="100vw"
+                quality={90}
                 className="object-contain"
                 priority
               />

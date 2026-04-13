@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllCollections, getCollection } from "@/lib/photos";
 import PhotoColumn from "@/components/PhotoColumn";
+import CollectionAudio from "@/components/CollectionAudio";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export async function generateStaticParams() {
@@ -69,6 +70,12 @@ export default async function CollectionPage({
             <>
               <span>·</span>
               <span>{c.camera}</span>
+            </>
+          )}
+          {c.audio && (
+            <>
+              <span>·</span>
+              <CollectionAudio audio={c.audio} />
             </>
           )}
         </div>

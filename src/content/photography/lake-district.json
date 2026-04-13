@@ -3,12 +3,120 @@
   "date": "2026-03-28",
   "intro": "A few days walking the fells in early spring. Low cloud, wet stone, the kind of quiet that settles in.",
   "location": "Cumbria, England",
-  "camera": "Fujifilm X-T5 · 23mm f/2",
-  "cover": "saunders-at-sunset.webp",
+  "camera": "Canon EOS 350D · Tamron 28–300mm",
+  "audio": {
+    "file": "the-lark-ascending.m4a",
+    "title": "The Lark Ascending"
+  },
+  "cover": "IMG_8664.webp",
   "photos": [
-    { "file": "saunders-at-sunset.webp", "caption": "Last light over the water" },
-    { "file": "stone-pines.webp", "caption": "Pines on the ridge" },
-    { "file": "southern-suburbs-view.webp", "caption": "Looking back down the valley" },
-    { "file": "canopies.webp", "caption": "Canopy from below" }
+    {
+      "file": "IMG_8383.webp"
+    },
+    {
+      "file": "IMG_8396.webp"
+    },
+    {
+      "file": "IMG_8398.webp"
+    },
+    {
+      "file": "IMG_8430.webp"
+    },
+    {
+      "file": "IMG_8433.webp"
+    },
+    {
+      "file": "IMG_8436.webp"
+    },
+    {
+      "file": "IMG_8438.webp"
+    },
+    {
+      "file": "IMG_8492.webp"
+    },
+    {
+      "file": "IMG_8499.webp"
+    },
+    {
+      "file": "IMG_8501.webp"
+    },
+    {
+      "file": "IMG_8508.webp"
+    },
+    {
+      "file": "IMG_8512.webp"
+    },
+    {
+      "file": "IMG_8527.webp"
+    },
+    {
+      "file": "IMG_8531.webp"
+    },
+    {
+      "file": "IMG_8554.webp"
+    },
+    {
+      "file": "IMG_8556.webp"
+    },
+    {
+      "file": "IMG_8599.webp"
+    },
+    {
+      "file": "IMG_8619.webp"
+    },
+    {
+      "file": "IMG_8622.webp"
+    },
+    {
+      "file": "IMG_8625.webp"
+    },
+    {
+      "file": "IMG_8631.webp"
+    },
+    {
+      "file": "IMG_8633.webp"
+    },
+    {
+      "file": "IMG_8651.webp"
+    },
+    {
+      "file": "IMG_8785.webp"
+    },
+    {
+      "file": "IMG_8789.webp"
+    },
+    {
+      "file": "IMG_8797.webp"
+    },
+    {
+      "file": "IMG_8799.webp"
+    },
+    {
+      "file": "IMG_8804.webp"
+    },
+    {
+      "file": "IMG_8817.webp"
+    },
+    {
+      "file": "IMG_8839.webp"
+    },
+    {
+      "file": "IMG_8852.webp"
+    },
+    {
+      "file": "IMG_8659.webp"
+    },
+    {
+      "file": "IMG_8664.webp"
+    },
+    {
+      "file": "IMG_8716.webp"
+    },
+    {
+      "file": "IMG_8714.webp"
+    },
+    {
+      "file": "IMG_8707.webp"
+    }
   ]
 }

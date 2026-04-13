@@ -12,6 +12,11 @@ export interface Photo {
   height: number;
 }
 
+export interface CollectionAudio {
+  src: string;
+  title: string;
+}
+
 export interface CollectionMeta {
   slug: string;
   title: string;
@@ -19,6 +24,7 @@ export interface CollectionMeta {
   intro: string;
   location?: string;
   camera?: string;
+  audio?: CollectionAudio;
   count: number;
   cover: Photo;
 }
@@ -38,6 +44,7 @@ interface Manifest {
   intro: string;
   location?: string;
   camera?: string;
+  audio?: { file: string; title: string };
   cover: string;
   photos: ManifestPhoto[];
 }
@@ -82,8 +89,13 @@ export async function getAllCollections(): Promise<CollectionMeta[]> {
       };
       if (m.location) meta.location = m.location;
       if (m.camera) meta.camera = m.camera;
+      if (m.audio)
+        meta.audio = {
+          src: `/photography/${slug}/${m.audio.file}`,
+          title: m.audio.title,
+        };
       return meta;
-    })
+    }),
   );
   return metas.sort((a, b) => b.date.getTime() - a.date.getTime());
 }
@@ -91,9 +103,7 @@ export async function getAllCollections(): Promise<CollectionMeta[]> {
 export async function getCollection(slug: string): Promise<Collection | null> {
   if (!listSlugs().includes(slug)) return null;
   const m = readManifest(slug);
-  const photos = await Promise.all(
-    m.photos.map((p) => loadPhoto(slug, p))
-  );
+  const photos = await Promise.all(m.photos.map((p) => loadPhoto(slug, p)));
   const cover =
     photos.find((p) => p.src.endsWith(m.cover)) ??
     (await loadPhoto(slug, { file: m.cover }));
@@ -108,5 +118,10 @@ export async function getCollection(slug: string): Promise<Collection | null> {
   };
   if (m.location) collection.location = m.location;
   if (m.camera) collection.camera = m.camera;
+  if (m.audio)
+    collection.audio = {
+      src: `/photography/${slug}/${m.audio.file}`,
+      title: m.audio.title,
+    };
   return collection;
 }

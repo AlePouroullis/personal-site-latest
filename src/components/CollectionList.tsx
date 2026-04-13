@@ -63,14 +63,12 @@ export default function CollectionList({
                 alt=""
                 fill
                 sizes="(max-width: 768px) 100vw, 650px"
+                quality={85}
                 className={`object-cover ${styles.cover}`}
               />
             </div>
             <div className="flex items-baseline justify-between gap-4">
-              <h2
-                className="text-xl"
-                style={{ color: "var(--heading-color)" }}
-              >
+              <h2 className="text-xl" style={{ color: "var(--heading-color)" }}>
                 {c.title}
               </h2>
               <span

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "images:webp": "node ./scripts/convert-to-webp.mjs"
+    "images:webp": "node ./scripts/convert-to-webp.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
@@ -23,6 +24,9 @@
     "react-dom": "^19.0.0",
     "sharp": "0.34.3"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,md,mdx,mjs}": "prettier --write"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
@@ -31,6 +35,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^16.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

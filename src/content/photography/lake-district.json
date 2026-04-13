@@ -1,7 +1,20 @@
 {
   "title": "Lake District",
-  "date": "2026-03-28",
-  "intro": "A few days walking the fells in early spring. Low cloud, wet stone, the kind of quiet that settles in.",
+  "date": "2026-04-06",
+  "dateEnd": "2026-04-11",
+  "intro": [
+    "A few days walking the fells in early spring. Low cloud, wet stone, moss underfoot.",
+    "Shot on an old family camera that had been lying around for some time."
+  ],
+  "outro": [
+    "I'd dabbled with the camera over the last few months, but this was the first time it started to click.",
+    "No plan going in — just experimenting with light, close-ups, water in motion.",
+    "Editing is new for me too. Turns out capturing the photos is the easy part;",
+    "it's much harder deciding what to leave out.",
+    "Over the last year I've found myself gravitating towards pairing visuals with music,",
+    "and this felt like an extension of that — only with a bit more deliberation on the sequencing.",
+    "If you scrolled through with The Lark Ascending playing, that was the idea."
+  ],
   "location": "Cumbria, England",
   "camera": "Canon EOS 350D · Tamron 28–300mm",
   "audio": {

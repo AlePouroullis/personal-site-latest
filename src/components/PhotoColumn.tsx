@@ -50,7 +50,7 @@ export default function PhotoColumn({ photos }: { photos: Photo[] }) {
 
   return (
     <>
-      <div className="space-y-12">
+      <div className="space-y-6">
         {photos.map((photo, i) => (
           <figure key={photo.src}>
             <button

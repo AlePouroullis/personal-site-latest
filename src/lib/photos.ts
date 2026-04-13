@@ -21,7 +21,9 @@ export interface CollectionMeta {
   slug: string;
   title: string;
   date: Date;
+  dateEnd?: Date;
   intro: string;
+  outro?: string;
   location?: string;
   camera?: string;
   audio?: CollectionAudio;
@@ -41,7 +43,9 @@ interface ManifestPhoto {
 interface Manifest {
   title: string;
   date: string;
-  intro: string;
+  dateEnd?: string;
+  intro: string | string[];
+  outro?: string | string[];
   location?: string;
   camera?: string;
   audio?: { file: string; title: string };
@@ -74,6 +78,10 @@ function readManifest(slug: string): Manifest {
   return JSON.parse(raw);
 }
 
+function asString(v: string | string[]): string {
+  return Array.isArray(v) ? v.join(" ") : v;
+}
+
 export async function getAllCollections(): Promise<CollectionMeta[]> {
   const metas = await Promise.all(
     listSlugs().map(async (slug) => {
@@ -83,10 +91,12 @@ export async function getAllCollections(): Promise<CollectionMeta[]> {
         slug,
         title: m.title,
         date: new Date(m.date),
-        intro: m.intro,
+        intro: asString(m.intro),
         count: m.photos.length,
         cover,
       };
+      if (m.dateEnd) meta.dateEnd = new Date(m.dateEnd);
+      if (m.outro) meta.outro = asString(m.outro);
       if (m.location) meta.location = m.location;
       if (m.camera) meta.camera = m.camera;
       if (m.audio)
@@ -111,11 +121,13 @@ export async function getCollection(slug: string): Promise<Collection | null> {
     slug,
     title: m.title,
     date: new Date(m.date),
-    intro: m.intro,
+    intro: asString(m.intro),
     count: photos.length,
     cover,
     photos,
   };
+  if (m.dateEnd) collection.dateEnd = new Date(m.dateEnd);
+  if (m.outro) collection.outro = asString(m.outro);
   if (m.location) collection.location = m.location;
   if (m.camera) collection.camera = m.camera;
   if (m.audio)

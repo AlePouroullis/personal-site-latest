@@ -36,10 +36,22 @@ export default async function CollectionPage({
   const c = await getCollection(slug);
   if (!c) notFound();
 
-  const date = c.date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-  });
+  const fmtDay = (d: Date) => d.getUTCDate();
+  const fmtMonthYear = (d: Date) =>
+    d.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      timeZone: "UTC",
+    });
+  const sameMonth =
+    c.dateEnd &&
+    c.date.getUTCFullYear() === c.dateEnd.getUTCFullYear() &&
+    c.date.getUTCMonth() === c.dateEnd.getUTCMonth();
+  const date = c.dateEnd
+    ? sameMonth
+      ? `${fmtDay(c.date)}\u2013${fmtDay(c.dateEnd)} ${fmtMonthYear(c.date)}`
+      : `${fmtDay(c.date)} ${fmtMonthYear(c.date)} \u2013 ${fmtDay(c.dateEnd)} ${fmtMonthYear(c.dateEnd)}`
+    : fmtMonthYear(c.date);
 
   return (
     <div className="space-y-10">
@@ -88,6 +100,15 @@ export default async function CollectionPage({
       </header>
 
       <PhotoColumn photos={c.photos} />
+
+      {c.outro && (
+        <p
+          className="leading-relaxed pt-4"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {c.outro}
+        </p>
+      )}
 
       <div className="pt-8">
         <Link href="/photography">← Back to photography</Link>

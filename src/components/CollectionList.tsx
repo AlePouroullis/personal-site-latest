@@ -79,7 +79,7 @@ export default function CollectionList({
               </span>
             </div>
             <p
-              className="mt-1 leading-relaxed"
+              className="mt-1 leading-relaxed line-clamp-2"
               style={{ color: "var(--text-tertiary)" }}
             >
               {c.intro}

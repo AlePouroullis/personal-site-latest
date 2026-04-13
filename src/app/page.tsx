@@ -25,8 +25,7 @@ export default async function Home() {
 
         <div className="space-y-6 bio-section">
           <p style={{ color: "var(--text-primary)" }}>
-            I&apos;m a software engineer based in San Francisco, working on
-            Developer Experience at{" "}
+            I&apos;m a software engineer at{" "}
             <a
               href="https://anthropic.com"
               target="_blank"
@@ -35,19 +34,14 @@ export default async function Home() {
             >
               Anthropic
             </a>
-            .
+            . Hailing from South Africa, now based in San Francisco.
           </p>
 
-          <p style={{ color: "var(--text-secondary)" }}>
-            I came up through startups—first building a mobility app in Cape
-            Town&apos;s taxi industry, then a stint in London before landing
-            here. I&apos;m used to being the one-person tech team, sinking my
-            teeth into messy problems and figuring it out as I go.
-          </p>
-
-          <p style={{ color: "var(--text-tertiary)" }}>
-            These days I&apos;m learning to balance ambition with the quieter
-            things—writing is one small part of that.
+          <p style={{ color: "var(--text-primary)" }}>
+            Sundays you can find me cycling through Golden Gate Park, bossa nova
+            in ear. The rest of the week I try to keep up with creative
+            endeavours, like some of the photography and writing you can find
+            here.
           </p>
         </div>
       </div>

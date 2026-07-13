@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllCollections, getCollection } from "@/lib/photos";
+import {
+  getAllCollections,
+  getCollection,
+  getRawManifest,
+  getUnlistedPhotos,
+} from "@/lib/photos";
 import PhotoEditor from "@/components/PhotoEditor";
 
 export async function generateStaticParams() {
@@ -20,6 +25,8 @@ export default async function EditCollectionPage({
   const { slug } = await params;
   const c = await getCollection(slug);
   if (!c) notFound();
+  const unlisted = await getUnlistedPhotos(slug);
+  const manifest = getRawManifest(slug);
 
   return (
     <div className="space-y-8">
@@ -34,12 +41,20 @@ export default async function EditCollectionPage({
           Edit: {c.title}
         </h1>
         <p className="text-sm mt-2" style={{ color: "var(--text-muted)" }}>
-          Reorder and cull, then paste the JSON into{" "}
-          <code>src/content/photography/{slug}.json</code> under{" "}
-          <code>&quot;photos&quot;</code>.
+          Cull, reorder, pick a cover — then <strong>save</strong> (⌘S) writes
+          straight to <code>src/content/photography/{slug}.json</code>. Culled
+          photos stay on disk and reappear here as “out”, so you can always
+          re-edit. “copy JSON” gives the full manifest file if you prefer
+          pasting.
         </p>
       </div>
-      <PhotoEditor photos={c.photos} />
+      <PhotoEditor
+        photos={c.photos}
+        excluded={unlisted}
+        slug={slug}
+        cover={c.cover.src.split("/").pop()}
+        manifest={manifest ?? undefined}
+      />
     </div>
   );
 }

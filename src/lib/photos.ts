@@ -118,6 +118,28 @@ export async function getAllCollections(): Promise<CollectionMeta[]> {
   return metas.sort((a, b) => b.date.getTime() - a.date.getTime());
 }
 
+// Raw manifest JSON, for tooling that needs the file's full shape (edit page).
+export function getRawManifest(slug: string): Record<string, unknown> | null {
+  if (!listSlugs().includes(slug)) return null;
+  return readManifest(slug) as unknown as Record<string, unknown>;
+}
+
+// Images present in the collection's directory but absent from its manifest —
+// the cull pile, kept on disk so the edit page can resurface them.
+export async function getUnlistedPhotos(slug: string): Promise<Photo[]> {
+  if (!listSlugs().includes(slug)) return [];
+  const m = readManifest(slug);
+  const listed = new Set(m.photos.map((p) => p.file));
+  const dir = path.join(imageDir, slug);
+  if (!fs.existsSync(dir)) return [];
+  const files = fs
+    .readdirSync(dir)
+    .filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f))
+    .filter((f) => !listed.has(f))
+    .sort();
+  return Promise.all(files.map((f) => loadPhoto(slug, { file: f })));
+}
+
 export async function getCollection(slug: string): Promise<Collection | null> {
   if (!listSlugs().includes(slug)) return null;
   const m = readManifest(slug);

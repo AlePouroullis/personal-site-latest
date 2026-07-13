@@ -1,0 +1,68 @@
+{
+  "title": "New York",
+  "date": "2026-07-03",
+  "dateEnd": "2026-07-04",
+  "intro": [
+    "Two days in New York over the Fourth of July, in the middle of a heat wave —",
+    "the hottest the city had been in years."
+  ],
+  "location": "New York City",
+  "camera": "Canon EOS 350D",
+  "cover": "IMG_9309.webp",
+  "photos": [
+    {
+      "file": "IMG_9309.webp"
+    },
+    {
+      "file": "IMG_9299.webp"
+    },
+    {
+      "file": "IMG_9314.webp"
+    },
+    {
+      "file": "IMG_9316.webp"
+    },
+    {
+      "file": "IMG_9325.webp"
+    },
+    {
+      "file": "IMG_9330.webp"
+    },
+    {
+      "file": "IMG_9334.webp"
+    },
+    {
+      "file": "IMG_9346.webp"
+    },
+    {
+      "file": "IMG_9356.webp"
+    },
+    {
+      "file": "IMG_9360.webp"
+    },
+    {
+      "file": "IMG_9368.webp"
+    },
+    {
+      "file": "IMG_9375.webp"
+    },
+    {
+      "file": "IMG_9388.webp"
+    },
+    {
+      "file": "IMG_9396.webp"
+    },
+    {
+      "file": "IMG_9411.webp"
+    },
+    {
+      "file": "IMG_9415.webp"
+    },
+    {
+      "file": "IMG_9427.webp"
+    },
+    {
+      "file": "IMG_9441.webp"
+    }
+  ]
+}

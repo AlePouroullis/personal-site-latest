@@ -4,6 +4,7 @@ import { getAllCollections, getCollection } from "@/lib/photos";
 import PhotoColumn from "@/components/PhotoColumn";
 import CollectionAudio from "@/components/CollectionAudio";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import TextWithLinks from "@/components/TextWithLinks";
 
 export async function generateStaticParams() {
   const collections = await getAllCollections();
@@ -95,19 +96,23 @@ export default async function CollectionPage({
           className="leading-relaxed"
           style={{ color: "var(--text-secondary)" }}
         >
-          {c.intro}
+          <TextWithLinks text={c.intro} />
         </p>
       </header>
 
       <PhotoColumn photos={c.photos} />
 
       {c.outro && (
-        <p
-          className="leading-relaxed pt-4"
+        <div
+          className="leading-relaxed pt-4 space-y-4"
           style={{ color: "var(--text-secondary)" }}
         >
-          {c.outro}
-        </p>
+          {c.outro.split(/\n\s*\n/).map((para, i) => (
+            <p key={i}>
+              <TextWithLinks text={para.trim()} />
+            </p>
+          ))}
+        </div>
       )}
 
       <div className="pt-8">

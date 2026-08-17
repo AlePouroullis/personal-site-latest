@@ -4,7 +4,7 @@ import { getAllCollections, getCollection } from "@/lib/photos";
 import PhotoColumn from "@/components/PhotoColumn";
 import CollectionAudio from "@/components/CollectionAudio";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import TextWithLinks from "@/components/TextWithLinks";
+import InlineMarkdown, { stripMarkdown } from "@/components/InlineMarkdown";
 
 export async function generateStaticParams() {
   const collections = await getAllCollections();
@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (!c) return {};
   return {
     title: c.title,
-    description: c.intro,
+    description: stripMarkdown(c.intro),
     openGraph: { images: [c.cover.src] },
   };
 }
@@ -96,7 +96,7 @@ export default async function CollectionPage({
           className="leading-relaxed"
           style={{ color: "var(--text-secondary)" }}
         >
-          <TextWithLinks text={c.intro} />
+          <InlineMarkdown text={c.intro} />
         </p>
       </header>
 
@@ -109,7 +109,7 @@ export default async function CollectionPage({
         >
           {c.outro.split(/\n\s*\n/).map((para, i) => (
             <p key={i}>
-              <TextWithLinks text={para.trim()} />
+              <InlineMarkdown text={para.trim()} />
             </p>
           ))}
         </div>

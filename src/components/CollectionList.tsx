@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { CollectionMeta } from "@/lib/photos";
 import styles from "./CollectionList.module.css";
+import InlineMarkdown from "./InlineMarkdown";
 
 function fmt(d: Date) {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short" });
@@ -86,7 +87,7 @@ export default function CollectionList({
               className="mt-1 leading-relaxed line-clamp-2"
               style={{ color: "var(--text-tertiary)" }}
             >
-              {c.intro}
+              <InlineMarkdown text={c.intro} noLinks />
             </p>
           </Link>
         </li>

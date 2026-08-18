@@ -346,3 +346,13 @@ a:hover {
 .theme-toggle:active svg {
   transform: rotate(20deg) scale(0.9);
 }
+
+/* Lightbox entrance. Defined only when motion is welcome — with the keyframes
+   absent the animation property is simply a no-op. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+    }
+  }
+}

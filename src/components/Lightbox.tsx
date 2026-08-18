@@ -19,6 +19,11 @@ const FLICK_VELOCITY = 0.35;
 /** Vertical drag distance (px) that dismisses the viewer. */
 const DISMISS_DISTANCE = 110;
 const DISMISS_VELOCITY = 0.6;
+/** Vertical drag distance (px) over which the controls fade away. */
+const CONTROLS_FADE = 60;
+const BACKDROP = 0.92;
+const OPEN_MS = 140;
+const CLOSE_MS = 200;
 const EASE = "cubic-bezier(0.22, 0.61, 0.36, 1)";
 
 interface Gesture {
@@ -49,24 +54,68 @@ export default function Lightbox({
   const dialogRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const controlsRef = useRef<HTMLDivElement>(null);
   const lastFocusRef = useRef<HTMLElement | null>(null);
   const gestureRef = useRef<Gesture | null>(null);
   const suppressClickRef = useRef(false);
-  const dismissTimerRef = useRef<number | null>(null);
+  const closeTimerRef = useRef<number | null>(null);
+  const closingRef = useRef(false);
+
+  const isOpen = index !== null;
+  const swipeable = photos.length > 1;
+
+  // A monotonic counter that follows `index` through wrap-around, so each
+  // slide keeps a stable React key as the window shifts. Without it every
+  // swipe remounts all three images and replays their blur placeholders.
+  const virtualRef = useRef(0);
+  const prevIndexRef = useRef<number | null>(null);
+  if (index !== null) {
+    const prev = prevIndexRef.current;
+    if (prev === null) {
+      virtualRef.current = index;
+    } else if (prev !== index) {
+      const len = photos.length;
+      const forward = (index - prev + len) % len;
+      virtualRef.current += forward * 2 <= len ? forward : forward - len;
+    }
+  }
+  prevIndexRef.current = index;
+
+  /** Fade the whole viewer out before handing the close back to the parent. */
+  const requestClose = useCallback(() => {
+    if (closingRef.current) return;
+    closingRef.current = true;
+    const el = dialogRef.current;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (!el || reduceMotion) {
+      onClose();
+      return;
+    }
+    el.style.pointerEvents = "none";
+    el.style.animation = "none";
+    el.style.transition = `opacity ${CLOSE_MS}ms ease-out`;
+    el.style.opacity = "0";
+    closeTimerRef.current = window.setTimeout(onClose, CLOSE_MS);
+  }, [onClose]);
 
   const step = useCallback(
     (delta: number) => {
-      if (index === null) return;
+      if (index === null || closingRef.current) return;
       onNavigate((index + delta + photos.length) % photos.length);
     },
     [index, photos.length, onNavigate],
   );
 
-  const isOpen = index !== null;
-  const swipeable = photos.length > 1;
-
   useEffect(() => {
     if (!isOpen) return;
+    // A reopen inside the closing fade must not inherit its pending close.
+    if (closeTimerRef.current !== null) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    closingRef.current = false;
     lastFocusRef.current = document.activeElement as HTMLElement;
     const { documentElement, body } = document;
     const prevHtml = documentElement.style.overflow;
@@ -78,19 +127,26 @@ export default function Lightbox({
       documentElement.style.overflow = prevHtml;
       body.style.overflow = prevBody;
       lastFocusRef.current?.focus();
+      closingRef.current = false;
     };
   }, [isOpen]);
 
   useEffect(() => {
+    return () => {
+      if (closeTimerRef.current !== null) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") requestClose();
       if (e.key === "ArrowLeft") step(-1);
       if (e.key === "ArrowRight") step(1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [isOpen, onClose, step]);
+  }, [isOpen, requestClose, step]);
 
   // Touch dragging. Listeners are attached natively because React registers
   // touchmove passively, which would block preventDefault().
@@ -102,8 +158,10 @@ export default function Lightbox({
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    const setBackdrop = (opacity: number) => {
-      el.style.background = `rgba(0, 0, 0, ${opacity})`;
+    const setChrome = (backdrop: number, controls: number) => {
+      el.style.background = `rgba(0, 0, 0, ${backdrop})`;
+      if (controlsRef.current)
+        controlsRef.current.style.opacity = `${controls}`;
     };
 
     const render = (x: number, y: number) => {
@@ -132,19 +190,15 @@ export default function Lightbox({
     const slideWidth = () => (viewportRef.current?.clientWidth ?? 0) + GAP;
 
     const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length !== 1) {
+      if (e.touches.length !== 1 || closingRef.current) {
         gestureRef.current = null;
         return;
-      }
-      // Grabbing again mid-dismiss cancels the close.
-      if (dismissTimerRef.current !== null) {
-        clearTimeout(dismissTimerRef.current);
-        dismissTimerRef.current = null;
       }
       const t = e.touches[0];
       const track = trackRef.current;
       const base = currentX();
       if (track) track.style.transition = "none";
+      if (controlsRef.current) controlsRef.current.style.transition = "none";
       render(base, 0);
       gestureRef.current = {
         startX: t.clientX,
@@ -161,13 +215,20 @@ export default function Lightbox({
       };
     };
 
+    const settleChrome = () => {
+      if (controlsRef.current) {
+        controlsRef.current.style.transition = `opacity 200ms ease-out`;
+      }
+      setChrome(BACKDROP, 1);
+    };
+
     const onTouchMove = (e: TouchEvent) => {
       const g = gestureRef.current;
       if (!g) return;
       if (e.touches.length !== 1) {
         gestureRef.current = null;
         animate(0, 0, 200);
-        setBackdrop(0.92);
+        settleChrome();
         return;
       }
       const t = e.touches[0];
@@ -196,7 +257,10 @@ export default function Lightbox({
         render(g.baseX + travel, 0);
       } else {
         render(0, dy);
-        setBackdrop(Math.max(0.4, 0.92 - Math.abs(dy) / 600));
+        setChrome(
+          Math.max(0.4, BACKDROP - Math.abs(dy) / 600),
+          Math.max(0, 1 - Math.abs(dy) / CONTROLS_FADE),
+        );
       }
     };
 
@@ -221,15 +285,12 @@ export default function Lightbox({
 
       if (g.axis === "y") {
         if (dy > DISMISS_DISTANCE || (dy > 20 && vy > DISMISS_VELOCITY)) {
-          animate(0, window.innerHeight, 220);
-          setBackdrop(0);
-          dismissTimerRef.current = window.setTimeout(
-            onClose,
-            reduceMotion ? 0 : 180,
-          );
+          // Let the photo keep falling while the whole viewer fades out.
+          animate(0, dy + 220, CLOSE_MS);
+          requestClose();
         } else {
           animate(0, 0, 260);
-          setBackdrop(0.92);
+          settleChrome();
         }
         return;
       }
@@ -262,7 +323,7 @@ export default function Lightbox({
       if (!gestureRef.current) return;
       gestureRef.current = null;
       animate(0, 0, 200);
-      setBackdrop(0.92);
+      settleChrome();
     };
 
     el.addEventListener("touchstart", onTouchStart, { passive: false });
@@ -270,21 +331,15 @@ export default function Lightbox({
     el.addEventListener("touchend", onTouchEnd);
     el.addEventListener("touchcancel", onTouchCancel);
     return () => {
-      if (dismissTimerRef.current !== null) {
-        clearTimeout(dismissTimerRef.current);
-        dismissTimerRef.current = null;
-      }
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchCancel);
     };
-  }, [isOpen, index, photos.length, swipeable, onClose, onNavigate]);
+  }, [isOpen, index, photos.length, swipeable, requestClose, onNavigate]);
 
   if (index === null || !photos[index]) return null;
 
-  const at = (offset: number) =>
-    photos[(index + offset + photos.length) % photos.length];
   const slots = swipeable ? ([-1, 0, 1] as const) : ([0] as const);
 
   return (
@@ -296,45 +351,51 @@ export default function Lightbox({
       aria-label="Image viewer"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 outline-none"
       style={{
-        background: "rgba(0, 0, 0, 0.92)",
+        background: `rgba(0, 0, 0, ${BACKDROP})`,
         margin: 0,
         touchAction: "none",
+        animation: `lightbox-in ${OPEN_MS}ms ease-out`,
       }}
       onClick={() => {
         if (suppressClickRef.current) return;
-        onClose();
+        requestClose();
       }}
     >
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Close"
-        className="absolute top-0 right-0 z-10 text-white/70 hover:text-white text-3xl leading-none cursor-pointer p-4"
+      <div
+        ref={controlsRef}
+        className="absolute inset-0 z-10 pointer-events-none"
       >
-        ×
-      </button>
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          step(-1);
-        }}
-        aria-label="Previous"
-        className="absolute left-0 sm:left-6 top-1/2 -translate-y-1/2 z-10 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
-      >
-        ‹
-      </button>
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          step(1);
-        }}
-        aria-label="Next"
-        className="absolute right-0 sm:right-6 top-1/2 -translate-y-1/2 z-10 text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
-      >
-        ›
-      </button>
+        <button
+          type="button"
+          onClick={requestClose}
+          aria-label="Close"
+          className="absolute top-0 right-0 pointer-events-auto text-white/70 hover:text-white text-3xl leading-none cursor-pointer p-4"
+        >
+          ×
+        </button>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            step(-1);
+          }}
+          aria-label="Previous"
+          className="absolute left-0 sm:left-6 top-1/2 -translate-y-1/2 pointer-events-auto text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            step(1);
+          }}
+          aria-label="Next"
+          className="absolute right-0 sm:right-6 top-1/2 -translate-y-1/2 pointer-events-auto text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
+        >
+          ›
+        </button>
+      </div>
       <div
         ref={viewportRef}
         className="relative w-full h-full max-w-6xl overflow-hidden"
@@ -346,10 +407,14 @@ export default function Lightbox({
           style={{ backfaceVisibility: "hidden" }}
         >
           {slots.map((offset) => {
-            const photo = at(offset);
+            const virtual = virtualRef.current + offset;
+            const photo =
+              photos[
+                ((virtual % photos.length) + photos.length) % photos.length
+              ];
             return (
               <figure
-                key={`${offset}:${photo.src}`}
+                key={virtual}
                 className="absolute inset-0 flex flex-col items-center justify-center gap-3"
                 style={{
                   transform: `translate3d(calc(${offset * 100}% + ${offset * GAP}px), 0, 0)`,
@@ -370,8 +435,12 @@ export default function Lightbox({
                           blurDataURL: photo.blurDataURL,
                         }
                       : {})}
-                    className="object-contain select-none"
-                    priority={offset === 0}
+                    // objectFit must be in `style`, not just the class: Next
+                    // sizes the blur placeholder from it, and otherwise paints
+                    // it full-bleed before snapping to the letterboxed photo.
+                    style={{ objectFit: "contain" }}
+                    className="select-none"
+                    priority
                   />
                 </div>
                 {photo.caption && (

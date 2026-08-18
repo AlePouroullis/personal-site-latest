@@ -398,9 +398,9 @@ export default function Lightbox({
           type="button"
           onClick={requestClose}
           aria-label="Close"
-          className="absolute top-3 right-3 sm:top-5 sm:right-5 text-2xl pb-0.5 flex h-11 w-11 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm text-white/90 leading-none select-none cursor-pointer transition-colors hover:bg-black/60 hover:text-white pointer-events-auto"
+          className="absolute top-2 right-2 sm:top-4 sm:right-4 flex h-11 w-11 items-center justify-center text-white/70 transition-colors hover:text-white cursor-pointer pointer-events-auto"
         >
-          ×
+          <CloseIcon />
         </button>
         <button
           type="button"
@@ -409,9 +409,9 @@ export default function Lightbox({
             step(-1);
           }}
           aria-label="Previous"
-          className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-3xl pb-1 flex h-11 w-11 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm text-white/90 leading-none select-none cursor-pointer transition-colors hover:bg-black/60 hover:text-white pointer-events-auto"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center text-white/70 transition-colors hover:text-white cursor-pointer pointer-events-auto"
         >
-          ‹
+          <ChevronIcon direction="left" />
         </button>
         <button
           type="button"
@@ -420,9 +420,9 @@ export default function Lightbox({
             step(1);
           }}
           aria-label="Next"
-          className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-3xl pb-1 flex h-11 w-11 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm text-white/90 leading-none select-none cursor-pointer transition-colors hover:bg-black/60 hover:text-white pointer-events-auto"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center text-white/70 transition-colors hover:text-white cursor-pointer pointer-events-auto"
         >
-          ›
+          <ChevronIcon direction="right" />
         </button>
       </div>
       <div
@@ -483,5 +483,44 @@ export default function Lightbox({
         </div>
       </div>
     </div>
+  );
+}
+
+function ChevronIcon({ direction }: { direction: "left" | "right" }) {
+  return (
+    <svg
+      width="26"
+      height="26"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polyline
+        points={direction === "left" ? "15 18 9 12 15 6" : "9 18 15 12 9 6"}
+      />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
   );
 }

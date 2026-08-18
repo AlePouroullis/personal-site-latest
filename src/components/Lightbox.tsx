@@ -342,6 +342,34 @@ export default function Lightbox({
 
   const slots = swipeable ? ([-1, 0, 1] as const) : ([0] as const);
 
+  /**
+   * Whether a point lands on the photo itself. `fill` stretches the <img> box
+   * across the whole slide, so the letterboxed painted area has to be derived
+   * from the photo's own aspect ratio.
+   */
+  const hitsPhoto = (clientX: number, clientY: number, target: HTMLElement) => {
+    if (target.closest("figcaption")) return true;
+    const img = trackRef.current?.querySelector<HTMLImageElement>(
+      'figure[data-active="true"] img',
+    );
+    if (!img?.naturalWidth || !img.naturalHeight) return false;
+    const box = img.getBoundingClientRect();
+    const scale = Math.min(
+      box.width / img.naturalWidth,
+      box.height / img.naturalHeight,
+    );
+    const w = img.naturalWidth * scale;
+    const h = img.naturalHeight * scale;
+    const left = box.left + (box.width - w) / 2;
+    const top = box.top + (box.height - h) / 2;
+    return (
+      clientX >= left &&
+      clientX <= left + w &&
+      clientY >= top &&
+      clientY <= top + h
+    );
+  };
+
   return (
     <div
       ref={dialogRef}
@@ -356,8 +384,9 @@ export default function Lightbox({
         touchAction: "none",
         animation: `lightbox-in ${OPEN_MS}ms ease-out`,
       }}
-      onClick={() => {
+      onClick={(e) => {
         if (suppressClickRef.current) return;
+        if (hitsPhoto(e.clientX, e.clientY, e.target as HTMLElement)) return;
         requestClose();
       }}
     >
@@ -369,7 +398,7 @@ export default function Lightbox({
           type="button"
           onClick={requestClose}
           aria-label="Close"
-          className="absolute top-0 right-0 pointer-events-auto text-white/70 hover:text-white text-3xl leading-none cursor-pointer p-4"
+          className="absolute top-3 right-3 sm:top-5 sm:right-5 text-2xl pb-0.5 flex h-11 w-11 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm text-white/90 leading-none select-none cursor-pointer transition-colors hover:bg-black/60 hover:text-white pointer-events-auto"
         >
           ×
         </button>
@@ -380,7 +409,7 @@ export default function Lightbox({
             step(-1);
           }}
           aria-label="Previous"
-          className="absolute left-0 sm:left-6 top-1/2 -translate-y-1/2 pointer-events-auto text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
+          className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 text-3xl pb-1 flex h-11 w-11 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm text-white/90 leading-none select-none cursor-pointer transition-colors hover:bg-black/60 hover:text-white pointer-events-auto"
         >
           ‹
         </button>
@@ -391,7 +420,7 @@ export default function Lightbox({
             step(1);
           }}
           aria-label="Next"
-          className="absolute right-0 sm:right-6 top-1/2 -translate-y-1/2 pointer-events-auto text-white/70 hover:text-white text-4xl leading-none select-none cursor-pointer p-4"
+          className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 text-3xl pb-1 flex h-11 w-11 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm text-white/90 leading-none select-none cursor-pointer transition-colors hover:bg-black/60 hover:text-white pointer-events-auto"
         >
           ›
         </button>
@@ -399,7 +428,6 @@ export default function Lightbox({
       <div
         ref={viewportRef}
         className="relative w-full h-full max-w-6xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
       >
         <div
           ref={trackRef}
@@ -420,6 +448,7 @@ export default function Lightbox({
                   transform: `translate3d(calc(${offset * 100}% + ${offset * GAP}px), 0, 0)`,
                 }}
                 aria-hidden={offset !== 0}
+                data-active={offset === 0 ? "true" : undefined}
               >
                 <div className="relative flex-1 min-h-0 w-full">
                   <Image
